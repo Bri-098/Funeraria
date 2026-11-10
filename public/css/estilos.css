@@ -1,0 +1,449 @@
+/* ==========================================================
+   Estilos del sitio público de la funeraria
+   Mobile-first: lo básico es para celular y con @media (min-width)
+   se mejora para pantallas más grandes.
+   ========================================================== */
+
+/* ---------- Colores y medidas (variables) ---------- */
+:root {
+    --oscuro: #0b1a21;        /* menú y pie */
+    --lila-fondo: #dcd3e6;    /* fondo de las secciones */
+    --lila-tarjeta: #e6d9ec;  /* tarjetas */
+    --lila-boton: #b8aec9;    /* botón "Solicitar información" */
+    --pizarra: #44566a;       /* botones oscuros */
+    --texto: #12303a;
+    --blanco: #ffffff;
+    --error: #8a1c1c;
+    --exito: #1d5b3a;
+    --radio: 14px;
+    --sombra: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- Base ---------- */
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 1.0625rem;       /* 17px: texto legible en celular */
+    line-height: 1.55;
+    color: var(--texto);
+    background: var(--oscuro);
+}
+
+img, svg { max-width: 100%; }
+
+a { color: inherit; }
+
+h1, h2, h3 { line-height: 1.15; margin: 0; }
+
+/* Enlace para saltar al contenido (accesibilidad con teclado) */
+.salto {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background: var(--blanco);
+    color: var(--oscuro);
+    padding: 0.5rem 1rem;
+    z-index: 100;
+}
+.salto:focus { left: 0; }
+
+/* Foco visible en todo el sitio */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 3px solid #f2c94c;
+    outline-offset: 2px;
+}
+
+/* ---------- Menú ---------- */
+.menu {
+    background: var(--oscuro);
+    color: var(--blanco);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.menu__barra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 1rem;
+    max-width: 75rem;
+    margin: 0 auto;
+}
+
+.menu__logo {
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-decoration: none;
+    padding: 0.6rem 0;
+}
+
+/* Botón hamburguesa (celular) */
+.menu__boton {
+    background: none;
+    border: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+.menu__boton span {
+    display: block;
+    width: 26px;
+    height: 3px;
+    background: var(--blanco);
+    border-radius: 2px;
+}
+
+/* Lista de enlaces: en celular es un panel desplegable debajo de la barra */
+.menu__enlaces {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--oscuro);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.35);
+}
+.menu__enlaces--abierto { display: block; }
+
+.menu__enlaces a {
+    display: block;
+    padding: 1rem;
+    color: var(--blanco);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.menu__enlaces a:hover,
+.menu__enlaces a[aria-current="page"] { background: rgba(255, 255, 255, 0.12); }
+
+/* ---------- Encabezado (hero) ---------- */
+.hero {
+    /* Si existe public/img/hero.jpg se usa; si no, se ve solo el degradado */
+    background-image:
+        linear-gradient(rgba(11, 26, 33, 0.55), rgba(11, 26, 33, 0.55)),
+        url("../img/hero.jpg"),
+        linear-gradient(135deg, #1b2e36, #4a5d5c);
+    background-size: cover;
+    background-position: center;
+    color: var(--blanco);
+    padding: 3rem 1rem 7rem;   /* abajo queda espacio para que la tarjeta "suba" */
+    position: relative;
+    z-index: 0;
+}
+.hero--inicio { padding-bottom: 3rem; }
+
+.hero h1 { font-size: 2.2rem; max-width: 14ch; }
+.hero--inicio h1 { max-width: 16ch; }
+.hero__sub { font-size: 1.25rem; margin: 0.5rem 0 1.25rem; }
+
+/* ---------- Botones ---------- */
+.boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 48px;                 /* botón grande y fácil de tocar */
+    padding: 0.6rem 1.6rem;
+    border: 0;
+    border-radius: 10px;
+    font: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: var(--sombra);
+}
+.boton svg { width: 1.4rem; height: 1.4rem; }
+
+.boton--claro  { background: var(--lila-boton); color: #111; width: 100%; max-width: 26rem; }
+.boton--oscuro { background: var(--pizarra); color: var(--blanco); }
+.boton--blanco { background: var(--blanco); color: var(--oscuro); }
+.boton--grande { font-size: 1.6rem; letter-spacing: 0.05em; padding: 0.7rem 1.5rem; }
+.boton:hover { filter: brightness(1.08); }
+
+/* ---------- Zonas lilas y tarjetas ---------- */
+.franja {
+    background: var(--lila-fondo);
+    padding: 1.5rem 1rem 2rem;
+}
+/* En Servicios y Nosotros la tarjeta sube sobre el encabezado */
+.franja--sube { padding-top: 0; }
+.franja--sube > .tarjeta { margin-top: -5rem; }
+
+.tarjeta {
+    background: var(--lila-tarjeta);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    padding: 1.25rem 1rem;
+    max-width: 62rem;
+    margin: 0 auto 1.75rem;
+    position: relative;
+    z-index: 2;
+}
+.tarjeta > h2 { text-align: center; font-size: 1.4rem; margin-bottom: 1rem; }
+
+/* Tarjeta de servicios (inicio) */
+.tarjeta--servicios { padding-bottom: 2.5rem; }
+.tarjeta--servicios > h2 { font-size: 1.1rem; }
+
+.iconos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+}
+.iconos svg { display: block; height: 3.5rem; margin: 0 auto 0.25rem; color: #2e4a57; }
+
+.boton--sobre {
+    position: absolute;
+    left: 50%;
+    bottom: -1.5rem;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+/* Banner "Nosotros" del inicio */
+.banner {
+    max-width: 62rem;
+    margin: 2.5rem auto 0;
+    border-radius: var(--radio);
+    overflow: hidden;
+    box-shadow: var(--sombra);
+    background: var(--oscuro);
+    color: var(--blanco);
+}
+.banner__imagen { height: 12rem; }
+.banner__texto { padding: 1.5rem 1rem; text-align: center; }
+.banner__texto p { margin: 0 0 1rem; }
+
+/* ---------- Imágenes (se ponen con CSS; si falta el archivo se ve el color) ---------- */
+.foto {
+    background-color: #2b3a42;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.foto--lapida     { background-image: url("../img/lapida.jpg"),  linear-gradient(135deg, #5c6a55, #2c3a2f); }
+.foto--vela       { background-image: url("../img/vela-rosa.jpg"), linear-gradient(135deg, #111, #3a3a3a); }
+.foto--vela2      { background-image: url("../img/vela.jpg"),     linear-gradient(135deg, #14161c, #2f3340); }
+.foto--velacion   { background-image: url("../img/velacion.jpg"),   linear-gradient(135deg, #7d7d7d, #4a4a4a); }
+.foto--cremacion  { background-image: url("../img/cremacion.jpg"),  linear-gradient(135deg, #8a8478, #4d4a44); }
+.foto--inhumacion { background-image: url("../img/inhumacion.jpg"), linear-gradient(135deg, #6f7a6a, #3a4636); }
+.foto--prevision  { background-image: url("../img/prevision.jpg"),  linear-gradient(135deg, #7a7f8f, #424858); }
+
+/* ---------- Banda del formulario (de lila a oscuro) ---------- */
+.banda-contacto {
+    /* lila arriba; los últimos 4rem son oscuros y la tarjeta los cruza */
+    background: linear-gradient(to bottom, var(--lila-fondo) calc(100% - 4rem), var(--oscuro) calc(100% - 4rem));
+    padding: 1.5rem 1rem 0;
+    display: flow-root;
+}
+.banda-contacto--sube { padding-top: 0; }
+.banda-contacto--sube > .tarjeta { margin-top: -5rem; }
+.banda-contacto > .tarjeta { margin-bottom: -4rem; }
+
+.tarjeta--formulario { padding: 0; overflow: hidden; }
+.tarjeta__foto { display: none; }   /* en celular no se muestra, para que cargue rápido */
+
+/* ---------- Formulario ---------- */
+.formulario { padding: 1.25rem 1rem 1.5rem; }
+.formulario h2 { text-align: center; font-size: 1.8rem; margin-bottom: 1rem; }
+
+.campo { margin-bottom: 0.9rem; }
+.campo label { display: block; margin-bottom: 0.25rem; color: #4a4f5c; font-size: 0.95rem; }
+.campo input,
+.campo textarea {
+    width: 100%;
+    font: inherit;
+    color: var(--texto);
+    background: #d9cbe3;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 0.7rem 0.75rem;
+    min-height: 48px;
+}
+.campo textarea { resize: vertical; min-height: 7rem; }
+.campo input:focus, .campo textarea:focus { border-color: var(--pizarra); }
+.campo input[aria-invalid="true"], .campo textarea[aria-invalid="true"] { border-color: var(--error); background: #f1dede; }
+.campo__error { margin: 0.3rem 0 0; color: var(--error); font-size: 0.92rem; font-weight: 600; }
+
+.formulario__privacidad { font-size: 0.9rem; margin: 0 0 1rem; text-align: center; }
+.formulario .boton { display: flex; margin: 0 auto; }
+
+.alerta { padding: 0.75rem 1rem; border-radius: 8px; margin: 0 0 1rem; font-weight: 600; }
+.alerta--exito { background: #d8efe0; color: var(--exito); }
+.alerta--error { background: #f6dada; color: var(--error); }
+
+/* ---------- Servicios: carrusel ---------- */
+.tarjeta--carrusel { padding: 1.25rem 1rem 1.5rem; }
+.tarjeta--carrusel > h2 { color: #2e4a57; }
+
+.carrusel { position: relative; padding: 0 0.25rem; }
+
+.servicio { display: grid; gap: 1rem; }
+.servicio[hidden] { display: none; }
+.servicio__foto { height: 14rem; border-radius: 22px; }
+.servicio__texto { text-align: center; }
+.servicio__texto h3 { font-size: 2rem; margin-bottom: 0.75rem; }
+.servicio__texto p { margin: 0; }
+
+.carrusel__flecha {
+    position: absolute;
+    top: 6.5rem;               /* a la altura de la foto */
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--pizarra);
+    color: var(--blanco);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    box-shadow: var(--sombra);
+    z-index: 3;
+}
+.carrusel__flecha svg { width: 24px; height: 24px; }
+.carrusel__flecha--ant { left: -0.75rem; }
+.carrusel__flecha--sig { right: -0.75rem; }
+
+.carrusel__puntos { display: flex; justify-content: center; gap: 2px; margin-top: 1rem; }
+.carrusel__puntos button {
+    width: 32px;
+    height: 32px;              /* zona táctil de 32px, el cuadro visible es más pequeño */
+    padding: 10px;
+    border: 0;
+    background: var(--pizarra);
+    background-clip: content-box;
+    opacity: 0.45;
+    cursor: pointer;
+}
+.carrusel__puntos button[aria-current="true"] { opacity: 1; }
+
+/* ---------- Nosotros ---------- */
+.nosotros { display: grid; gap: 1rem; }
+.nosotros__foto { height: 14rem; border-radius: 22px; }
+.nosotros p { margin: 0; }
+
+/* ---------- Pie oscuro ---------- */
+.pie {
+    background: var(--oscuro);
+    color: #e4e7ea;
+    text-align: center;
+    padding: 2.5rem 1rem 6rem;
+}
+.pie__titulo { font-size: 2.1rem; letter-spacing: 0.06em; color: var(--blanco); margin-bottom: 1rem; }
+.pie__texto { max-width: 52rem; margin: 0 auto 1.5rem; font-weight: 500; }
+.pie__texto em { display: block; margin-top: 0.25rem; }
+.pie .boton { max-width: 100%; }
+
+/* Cuando la tarjeta del formulario cruza hacia el pie (Inicio y Contacto) hace falta más espacio arriba */
+.pie--cruce { padding-top: 5.5rem; }
+
+/* ---------- Botones fijos: llamar y WhatsApp ---------- */
+.fijos {
+    position: fixed;
+    right: 0.9rem;
+    bottom: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    z-index: 60;
+}
+.fijo {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--blanco);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+}
+.fijo svg { width: 30px; height: 30px; }
+.fijo--whatsapp { background: #1a8f45; }   /* verde oscurecido para buen contraste con el icono blanco */
+.fijo--llamar   { background: var(--pizarra); }
+
+/* ==========================================================
+   Pantallas medianas y grandes (tablet / escritorio)
+   ========================================================== */
+@media (min-width: 768px) {
+    body { font-size: 1.125rem; }
+
+    /* Menú en línea, sin botón hamburguesa */
+    .menu__boton { display: none; }
+    .menu__enlaces {
+        display: flex;
+        position: static;
+        background: none;
+        border: 0;
+        box-shadow: none;
+        gap: 1.5rem;
+    }
+    .menu__enlaces a { border: 0; padding: 0.9rem 0.5rem; background: none !important; }
+    .menu__enlaces a:hover { text-decoration: underline; }
+    .menu__enlaces a[aria-current="page"] { text-decoration: underline; text-underline-offset: 6px; }
+
+    .menu__barra { padding: 0.15rem 2rem; }
+
+    .hero { padding: 5rem 2rem 9rem; }
+    .hero--inicio { padding-bottom: 5rem; }
+    .hero h1 { font-size: 4rem; max-width: none; }
+    .hero--inicio h1 { max-width: 14ch; }
+    .hero__sub { font-size: 1.5rem; }
+    .boton--claro { width: auto; min-width: 18rem; }
+
+    .franja { padding: 2rem 2rem 2.5rem; }
+    .franja--sube > .tarjeta { margin-top: -7rem; }
+    .banda-contacto { padding: 2.5rem 2rem 0; }
+    .banda-contacto--sube > .tarjeta { margin-top: -7rem; }
+
+    .tarjeta { padding: 1.5rem 2rem; }
+    .tarjeta > h2 { font-size: 2rem; }
+    .tarjeta--servicios > h2 { font-size: 1.25rem; }
+
+    .iconos { grid-template-columns: repeat(4, 1fr); }
+
+    /* Banner con imagen a la izquierda y texto a la derecha */
+    .banner { display: grid; grid-template-columns: 1fr 1.3fr; }
+    .banner__imagen { height: auto; min-height: 13rem; }
+    .banner__texto { display: flex; flex-direction: column; justify-content: center; padding: 1.5rem 2rem; }
+
+    /* Formulario con foto a la derecha */
+    .tarjeta--formulario { display: grid; grid-template-columns: 1.1fr 1fr; }
+    .tarjeta__foto { display: block; min-height: 100%; }
+    .formulario { padding: 1.5rem 2.5rem 2rem; }
+
+    /* Carrusel: foto a la izquierda y texto a la derecha */
+    .tarjeta--carrusel { padding: 1.5rem 3rem 2rem; }
+    .servicio { grid-template-columns: 1fr 1fr; align-items: center; gap: 2rem; }
+    .servicio__foto { height: 20rem; }
+    .carrusel__flecha { top: 50%; transform: translateY(-50%); width: 56px; height: 56px; }
+    .carrusel__flecha--ant { left: -3.25rem; }
+    .carrusel__flecha--sig { right: -3.25rem; }
+
+    .nosotros { grid-template-columns: 1fr 1.4fr; align-items: center; gap: 2rem; }
+    .nosotros__foto { height: 17rem; }
+    .nosotros p { text-align: right; }
+
+    .pie__titulo { font-size: 3rem; }
+    .pie { padding-top: 3rem; }
+    .pie--cruce { padding-top: 6.5rem; }
+}
+
+/* Respeta a quien pide menos animación */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+}

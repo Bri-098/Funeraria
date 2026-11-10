@@ -1,0 +1,9 @@
+.env
+/vendor/
+/referencia/
+/writable/cache/*
+/writable/logs/*
+/writable/session/*
+CLAUDE.md
+.claude/
+/writable/debugbar/*
